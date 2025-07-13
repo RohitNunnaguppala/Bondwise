@@ -1,11 +1,8 @@
-Here is your **complete and ready-to-copy `README.md`** for the **Bondwise** project — clean, fully connected, real-world, and includes your name (**Rohit**) for personal attribution.
+# SocialEcho
 
----
+A social networking platform with automated content moderation and context-based authentication system.
 
-````markdown
-# Bondwise
-
-A scalable mentorship platform by Rohit, powered by AI-based content moderation and context-aware security.
+[Watch Demo](https://youtu.be/Tmncayg7FeU)
 
 ![UI-community](https://raw.githubusercontent.com/nz-m/SocialEcho/main/resources/UI-community.png)
 
@@ -19,175 +16,167 @@ A scalable mentorship platform by Rohit, powered by AI-based content moderation 
 - [Usage](#usage)
 - [License](#license)
 
----
-
 ## Project Overview
 
-**Bondwise** is a MERN-stack mentorship platform built by Rohit to help juniors connect with seniors across institutions. It enables real-time chats, Q&A forums, and community interactions — all moderated through AI-based content filtering and secured using context-aware authentication.
+The project is a social networking platform built using the MERN (MongoDB, Express.js, React.js, Node.js) stack. It incorporates two major features: an automated content moderation system and context-based authentication. These features are accompanied by common functionalities found in social media applications, such as profile creation, post creation and sharing, liking and commenting on posts, and following/unfollowing users.
 
-### 🔐 Context-Aware Security
+### Automated Content Moderation
 
-Bondwise collects contextual data like device info, location, and IP address to fingerprint user sessions. This data is encrypted using AES and securely stored. Suspicious logins trigger OTP verification to prevent unauthorized access.
+The platform's automated content moderation system utilizes various NLP (Natural Language Processing) APIs. These APIs include:
 
-### 🧠 AI-Based Content Moderation
+- Perspective API: Used for filtering spam, profanity, toxicity, harassment etc.
+- TextRazor API: Integrated for content categorization.
+- Hugging Face Interface API: Utilized with BART Large MNLI for content categorization.
 
-To ensure a safe and respectful environment, Bondwise integrates a flexible AI moderation pipeline with:
+A Flask application has been developed to provide similar functionality as the Hugging Face Interface API's classifier. The Flask app utilizes the BART Large MNLI model. It operates as a zero-shot classification pipeline with a PyTorch framework.
 
-- **Perspective API** – Detects toxicity, harassment, and spam.
-- **Hugging Face BART-MNLI** – Used for zero-shot classification of post content.
-- **TextRazor** (optional) – Adds semantic understanding and category tagging.
+The system allows flexibility in choosing different services for API usage or disabling them without affecting overall functionality by using a common interface for interacting with the APIs.
 
-A unified Flask-based interface handles these services modularly, allowing easy integration and switching.
+When a user posts content, it undergoes a thorough filtering process to ensure compliance with the community guidelines. Additionally, users have the ability to report posts that they find inappropriate, which triggers a manual review process.
 
-### 👥 User Roles
+### Context-Based Authentication
 
-Bondwise supports three user roles with defined responsibilities:
+The platform implements context-based authentication to enhance user account security. It takes into consideration user location, IP address, and device information for authentication purposes. Users can conveniently manage their devices directly from the platform. To ensure data privacy, this information is encrypted using the AES algorithm and securely stored in the database.
 
-- **Admin** – Controls platform configuration, community rules, and moderator assignments.
-- **Moderators** – Manage flagged content, oversee discussions, and ensure community guidelines.
-- **General Users** – Ask questions, mentor others, chat, and participate in forum discussions.
+In case of a suspicious login attempt, users are promptly notified via email and are required to confirm their identity to protect against unauthorized access.
 
----
+### User Roles
+
+There are three distinct user roles within the system:
+
+1. Admin: The admin role manages the overall system, including moderator management, community management, content moderation, monitoring user activity, and more.
+2. Moderators: Moderators manage communities, manually review reported posts, and perform other moderation-related tasks.
+3. General Users: General users have the ability to make posts, like comments, and perform other actions within the platform.
+
+
 
 ## Features
 
-- [x] Secure JWT-based authentication and session management
-- [x] Real-time one-on-one and group messaging with Socket.io
-- [x] Academic and professional profile creation
-- [x] Q&A-style discussion forums
-- [x] AI moderation for toxic/spam detection
-- [x] Context-aware login with AES-encrypted device fingerprinting
-- [x] Role-based dashboards for admin and moderators
-- [x] Manual review flow for reported content
-- [x] OTP/email verification for security alerts
+- [x] User authentication and authorization (JWT)
+- [x] User profile creation and management
+- [x] Post creation and management
+- [x] Commenting on posts
+- [x] Liking posts and comments
+- [x] Following/unfollowing users
+- [x] Reporting posts
+- [x] Content moderation
+- [x] Context-based authentication
+- [x] Device management
+- [x] Admin dashboard
+- [x] Moderator dashboard
+- [x] Email notifications
 
----
 
 ## Technologies
 
-- React.js + Redux
-- Node.js + Express.js
+- React.js
+- Redux
+- Node.js
+- Express.js
 - MongoDB
-- Socket.io
-- Flask (moderation gateway)
-- Hugging Face Transformers (BART-MNLI)
-- Perspective API
-- TextRazor API (optional)
 - Tailwind CSS
-- JWT & Passport.js
+- JWT Authentication
+- Passport.js
 - Nodemailer
-- Crypto-js (AES encryption)
-- Azure Blob Storage (for media uploads)
+- Crypto-js
+- Azure Blob Storage
+- Flask
+- Hugging Face Transformers
 
----
 
 ## Schema Diagram
 
 ![Schema Diagram](https://raw.githubusercontent.com/nz-m/SocialEcho/main/resources/Schema-Diagram.png)
 
----
+
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v16+)
-- MongoDB or MongoDB Atlas
-- (Optional) Python 3.8+ for Flask moderation server
+Before running the application, make sure you have the following installed:
+
+- Node.js
+- MongoDB or MongoDB Atlas account
 
 ### Installation
 
+1. Clone the repository
+
 ```bash
 git clone https://github.com/nz-m/SocialEcho.git
-````
-
-Install client and server dependencies:
+```
+2. Go to the project directory and install dependencies for both the client and server
 
 ```bash
 cd client
 npm install
+```
 
-cd ../server
+```bash
+cd server
 npm install
 ```
 
-Create a `.env` file in both `client/` and `server/` folders using `.env.example` as reference.
-
-Start both servers:
+3. Create a `.env` file in both the `client` and `server` directories and add the environment variables as shown in the `.env.example` files.
+4. Start the server
 
 ```bash
 cd server
 npm start
 ```
 
+5. Start the client
+
 ```bash
 cd client
 npm start
 ```
 
----
 
-## Configuration
+### Configuration
 
-To set up the admin account and initial roles, run:
-
+Run the `admin_tool.sh` script from the server directory with permissions for executing the script. This script is used for configuring the admin account, creating the initial communities, and other settings.
 ```bash
 ./admin_tool.sh
-```
+``` 
 
-### Required `.env` Variables
+#### `.env` Variables
 
-For email service (OTP and alerts):
+For email service of context-based authentication, the following variables are required:
 
-```env
+```bash
 EMAIL=
 PASSWORD=
 EMAIL_SERVICE=
 ```
 
-For AI moderation services:
+For content moderation, you need the `PERSPECTIVE_API_KEY` and either the `INTERFACE_API_KEY` or `TEXTRAZOR_API_KEY`. Visit the following links to obtain the API keys:
 
-```env
-PERSPECTIVE_API_KEY=
-INTERFACE_API_KEY=
-TEXTRAZOR_API_KEY=
-```
+- [Perspective API](https://developers.perspectiveapi.com/s/docs-get-started)
+- [TextRazor API](https://www.textrazor.com/)
+- [Hugging Face Interface API](https://huggingface.co/facebook/bart-large-mnli)
 
-> 🔗 API Keys:
->
-> * [Perspective API](https://developers.perspectiveapi.com/s/docs-get-started)
-> * [TextRazor](https://www.textrazor.com/)
-> * [Hugging Face (BART MNLI)](https://huggingface.co/facebook/bart-large-mnli)
+If you prefer, the Flask server can be run locally as an alternative to using the Hugging Face Interface API or TextRazor API. Refer to the `classifier_server` directory for more information.
 
-The Flask-based moderation gateway can be run locally from the `classifier_server/` directory.
 
-> ⚠️ Note: You can run Bondwise without these keys, but moderation and security features will be disabled.
+>**Note:** Configuration for context-based authentication and content moderation features are **_not mandatory_** to run the application. However, these features will not be available if the configuration is not provided.
 
----
 
 ## Usage
 
-### Admin Panel
+### Admin
 
-* Access at `/admin`
-* Manage moderators, configure APIs, and monitor flagged content
+The admin dashboard can be accessed at the `/admin` route. Use the `admin_tool.sh` script to configure the admin account. The admin account can be used to manage moderators, communities, and perform other admin-related tasks. You can also enable/disable or switch API services using the admin dashboard.
 
-### Moderator Accounts
+### Moderator
 
-* Use email ending with `@mod.bondwise.com` to auto-assign moderator role
-* Admin can reassign or promote users manually
+Moderators have specific email domain (`@mod.socialecho.com`). When registering with an email from this domain, the user is automatically assigned the moderator role. Moderators can be assigned to different communities from the admin dashboard.
 
-### Demo
-
-📺 [Watch Demo](https://youtu.be/Tmncayg7FeU)
-
----
+#### Demo
+https://youtu.be/Tmncayg7FeU
 
 ## License
 
-This project by **Rohit** is licensed under the [MIT License](https://github.com/nz-m/SocialEcho/blob/main/LICENSE).
-
-```
-
----
+This project is licensed under the [MIT License](https://github.com/nz-m/SocialEcho/blob/main/LICENSE).
 
