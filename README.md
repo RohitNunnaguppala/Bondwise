@@ -2,7 +2,7 @@
 
 A scalable mentorship platform by Rohit, powered by AI-based content moderation and context-aware security.
 
-![UI-community](https://raw.githubusercontent.com/nz-m/SocialEcho/main/resources/UI-community.png)
+![UI-community](/resources/UI-community.png)
 
 ## Table of Contents
 
